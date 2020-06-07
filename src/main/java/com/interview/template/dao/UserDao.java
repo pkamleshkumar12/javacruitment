@@ -32,9 +32,10 @@ public class UserDao {
 	}
 
 	public UserEntity create(UserEntity user) {
-		if (user.getId() != null) {
-			throw new IllegalArgumentException("User already exists.");
-		}
+		return userRepository.save(user);
+	}
+
+	public UserEntity save(UserEntity user){
 		return userRepository.save(user);
 	}
 }

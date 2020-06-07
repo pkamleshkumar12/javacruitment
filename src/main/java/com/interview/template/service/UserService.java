@@ -5,31 +5,45 @@ import com.interview.template.exceptions.UserNotFoundException;
 import com.interview.template.model.UserEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
 
 @Service
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class UserService {
 
-	private final UserDao userDao;
+    private final UserDao userDao;
 
-	public List<UserEntity> getAllUsers() {
-		return userDao.findAll();
-	}
+    @Value("#{'${list.of.reserved.username}'.split(',')}")
+    private List<String> reservedUsername;
 
-	public UserEntity getUser(long id) throws UserNotFoundException {
-		return userDao.findOrDie(id);
-	}
+    public List<UserEntity> getAllUsers() {
+        return userDao.findAll();
+    }
 
-	public void checkUserExists(long id) throws UserNotFoundException {
-		userDao.checkExists(id);
-	}
+    public Optional<UserEntity> getUser(long id) {
+        return userDao.find(id);
+    }
+
+    public void checkUserExists(long id) throws UserNotFoundException {
+        userDao.checkExists(id);
+    }
+
+    public UserEntity createUser(UserEntity user) {
+        return userDao.create(user);
+    }
+
+    public UserEntity updateUser(UserEntity user) {
+        return userDao.save(user);
+    }
+
+    public boolean validateUserName(String userName) {
+        return reservedUsername.contains(userName);
+    }
+
 }

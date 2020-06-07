@@ -1,38 +1,40 @@
 package com.interview.template.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.Where;
+
+import java.util.Date;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "deleted_token"}), @UniqueConstraint(columnNames = {"email", "deleted_token"})})
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserEntity {
+@EqualsAndHashCode(callSuper = false)
+@Where(clause = "deleted = false")
+public class UserEntity extends AuditEntity {
 
-	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_generator")
-	@SequenceGenerator(name = "user_id_generator", sequenceName = "user_id_seq")
-	private Long id;
+    private static final String ACTIVE = "ACTIVE";
 
-	@Column(name = "username")
-	private String username;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_generator")
+    @SequenceGenerator(name = "user_id_generator", sequenceName = "user_id_seq")
+    private Long id;
 
-	@Column(name = "email")
-	private String email;
+    @Column(name = "username", length = 100)
+    private String username;
 
-	@Column(name = "password")
-	private String password;
+    @Column(name = "email", length = 100)
+    private String email;
+
+    @Column(name = "password", length = 100)
+    private String password;
+
+    @Builder.Default
+    @Column(name = "deleted_token")
+    private String deletedToken = ACTIVE;
 }
