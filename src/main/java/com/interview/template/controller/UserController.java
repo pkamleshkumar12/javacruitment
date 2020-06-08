@@ -53,6 +53,14 @@ class UserController {
                 .map(user -> factory.createProjection(UserProjection.class, user)));
     }
 
+    @GetMapping("/username/{search}")
+    public ResponseEntity getAllUsersByUserName(@PathVariable String search) {
+
+        return ResponseEntity.ok(userService.getAllUsersByUserName(search)
+                .stream()
+                .map(user -> factory.createProjection(UserProjection.class, user)));
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity getUser(@PathVariable Long userId) throws UserNotFoundException {
 

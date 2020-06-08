@@ -26,6 +26,11 @@ public class UserService {
         return userDao.findAll();
     }
 
+    public List<UserEntity> getAllUsersByUserName(String userName){
+
+        return userDao.findAllUserByUserName(userName);
+    }
+
     public Optional<UserEntity> getUser(long id) {
         return userDao.find(id);
     }

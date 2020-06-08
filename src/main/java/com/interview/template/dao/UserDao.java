@@ -17,6 +17,9 @@ public class UserDao {
 		return userRepository.findAll();
 	}
 
+	public List<UserEntity> findAllUserByUserName(String username){
+		return userRepository.findAllByUsernameContainingIgnoreCase(username);
+	}
 	public Optional<UserEntity> find(long id) {
 		return userRepository.findById(id);
 	}
