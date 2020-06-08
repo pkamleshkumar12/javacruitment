@@ -16,3 +16,6 @@ list:
   of:
     reserved:
       username: admin,administrator,root,superuser
+
+server:
+  port:8080
