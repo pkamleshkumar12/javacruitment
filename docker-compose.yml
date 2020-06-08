@@ -14,7 +14,6 @@ services:
       - POSTGRES_DB=interview
       - POSTGRES_USER=candidate
       - POSTGRES_PASSWORD=java
-      - PGPASSWORD=1234
     volumes:
       - ./src/sql/init_schema.sql:/docker-entrypoint-initdb.d/init_schema.sql
     restart: unless-stopped

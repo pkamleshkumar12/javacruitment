@@ -1,5 +1,6 @@
 SELECT 'CREATE DATABASE interview'
 WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'interview');
+CREATE USER postgres WITH PASSWORD '1234' SUPERUSER ;
 CREATE USER candidate WITH PASSWORD 'java';
 GRANT ALL PRIVILEGES ON DATABASE interview to candidate;
 \connect interview
